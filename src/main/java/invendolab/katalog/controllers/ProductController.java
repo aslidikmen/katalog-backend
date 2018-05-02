@@ -1,37 +1,75 @@
 package invendolab.katalog.controllers;
 
-import invendolab.katalog.domain.Product;
-import invendolab.katalog.services.ProductService;
+import invendolab.katalog.exceptions.ProductNotFoundException;
+import invendolab.katalog.models.Product;
+import invendolab.katalog.helpers.Response;
+import invendolab.katalog.repositories.ProductRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
-@Controller
+import java.util.Map;
+import java.util.Optional;
+
+@RestController
 @RequestMapping("/product")
+@Api(value ="Products", description = "All details about the products. ")
 public class ProductController {
-    private ProductService productService;
+    private Response response = new Response();
 
     @Autowired
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
-    }
+    private ProductRepository repository;
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @ApiOperation(value = "Returns all products")
+    @GetMapping(value = "/all")
     public List<Product> getAllProducts(){
-        return productService.listAll();
+        return repository.findAll();
     }
 
-    /*@ApiOperation(value = "Single product information by id", response = Product.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved product"),
-            @ApiResponse(code = 404, message = "There is no product in database")
-    })
-    @RequestMapping("getById/{id}")
-    public Product getProductById(){
-        return productService.listAll(@PathVariable Long id);
-    } */
+    @GetMapping(value = "/{id}")
+    public Product getById(@PathVariable long id){
+        Optional<Product> product = repository.findById(id);
 
+        if (!product.isPresent())
+            throw new ProductNotFoundException("id-" + id);
+
+        return product.get();
+    }
+
+    @ApiOperation(value = "Save product")
+    @PostMapping(value = "/createProduct")
+    public ResponseEntity<?> saveProduct(@RequestBody Product product){
+        Product savedProduct = repository.save(product);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(savedProduct.getId()).toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public void deleteProduct(@PathVariable long id){
+        repository.deleteById(id);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Object> updateById(@RequestBody Product product, @PathVariable long id){
+
+        Optional<Product> studentOptional = repository.findById(id);
+
+        if (!studentOptional.isPresent())
+            return ResponseEntity.notFound().build();
+
+        product.setId(id);
+
+        repository.save(product);
+
+        return ResponseEntity.noContent().build();
+    }
 
 }

@@ -1,12 +1,9 @@
-package invendolab.katalog.domain;
+package invendolab.katalog.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class User {
+public class Consumer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,7 +17,11 @@ public class User {
     private String fullName;
     private boolean isActive;
 
-    public User(String userName, String password, String email, String jobTitle, String bio, String profileUrl, String companyName, String fullName, boolean isActive) {
+    public Consumer(){
+
+    }
+
+    public Consumer(String userName, String password, String email, String jobTitle, String bio, String profileUrl, String companyName, String fullName, boolean isActive) {
         this.userName = userName;
         this.password = password;
         this.email = email;

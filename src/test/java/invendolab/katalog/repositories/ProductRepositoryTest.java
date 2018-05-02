@@ -1,6 +1,6 @@
 package invendolab.katalog.repositories;
 
-import invendolab.katalog.domain.Product;
+import invendolab.katalog.models.Product;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,13 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.math.BigDecimal;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class ProductRepositoryTest {
 
-    private static final BigDecimal BIG_DECIMAL_100 = BigDecimal.valueOf(100.00);
+    private static final Float FLOAT_100 = 100.0f;
     private static final String PRODUCT_DESCRIPTION = "a cool product";
     private static final String IMAGE_URL = "http://an-imageurl.com/image1.jpg";
 
@@ -33,7 +31,7 @@ public class ProductRepositoryTest {
         Product product = new Product();
         product.setDescription(PRODUCT_DESCRIPTION);
         product.setImageUrl(IMAGE_URL);
-        product.setPrice(BIG_DECIMAL_100);
+        product.setPrice(FLOAT_100);
 
         //when
         productRepository.save(product);
@@ -43,7 +41,7 @@ public class ProductRepositoryTest {
         Product newProduct = productRepository.findById(product.getId()).orElse(null);
         Assert.assertEquals((Long) 1L, newProduct.getId());
         Assert.assertEquals(PRODUCT_DESCRIPTION, newProduct.getDescription());
-        Assert.assertEquals(BIG_DECIMAL_100.compareTo(newProduct.getPrice()), 0);
+        Assert.assertEquals(FLOAT_100.compareTo(newProduct.getPrice()), 0);
         Assert.assertEquals(IMAGE_URL, newProduct.getImageUrl());
     }
 }
