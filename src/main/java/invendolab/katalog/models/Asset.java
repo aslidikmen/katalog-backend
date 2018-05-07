@@ -8,9 +8,14 @@ public class Asset {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fileUrl;
+    private String assetType;
 
-    public Asset(String fileUrl) {
+    /*@ManyToOne
+    private Product product; */
+
+    public Asset(String fileUrl, String assetType) {
         this.fileUrl = fileUrl;
+        this.assetType = assetType;
     }
 
     public Long getId() {
@@ -27,5 +32,13 @@ public class Asset {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    public String getAssetType() {
+        return assetType;
+    }
+
+    public void setAssetType(String assetType) {
+        this.assetType = assetType;
     }
 }

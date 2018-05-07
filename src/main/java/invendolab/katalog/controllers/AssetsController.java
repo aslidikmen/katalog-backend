@@ -35,6 +35,11 @@ public class AssetsController {
         return asset.get();
     }
 
+    /*@GetMapping(value = "all/byProductId/{id}")
+    public List<Asset> getAllAssetsByProductId(@PathVariable Long productId){
+        return repository.findAllByProductId(productId);
+    } */
+
     @PostMapping(value = "/createAsset")
     public ResponseEntity<?> saveAsset(@RequestBody Asset asset){
         Asset savedAsset = repository.save(asset);

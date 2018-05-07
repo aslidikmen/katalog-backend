@@ -17,6 +17,7 @@ public class CommentReview {
     private boolean isActive;
     private String createdTime;
     private String updatedTime;
+
     @ManyToOne
     private Product product;
 
@@ -93,4 +94,5 @@ public class CommentReview {
     public void setProduct(Product product) {
         this.product = product;
     }
+
 }

@@ -1,6 +1,8 @@
 package invendolab.katalog.models;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Product {
@@ -24,14 +26,19 @@ public class Product {
     private Integer upVoteCount;
     private Integer downVoteCount;
 
-    @ManyToOne
-    private Consumer consumer;
+    /*@OneToMany(cascade=CascadeType.ALL, targetEntity=Likes.class)
+    @JoinColumn(name="likes_id")
+    private Set<Likes> likesSet = new HashSet<>();
+
+    @OneToMany(cascade=CascadeType.ALL, targetEntity=Consumer.class)
+    @JoinColumn(name="consumer_id")
+    private Set<Consumer> consumerSet = new HashSet<>(); */
 
     public Product(){
 
     }
 
-    public Product(String title, Float price, String description, String type, String imageUrl, String difficulty, String url, boolean isActive, String createdTime, String updatedTime, String tags, Integer commentCount, Integer upVoteCount, Integer downVoteCount, Consumer consumer) {
+    public Product(String title, Float price, String description, String type, String imageUrl, String difficulty, String url, boolean isActive, String createdTime, String updatedTime, String tags, Integer commentCount, Integer upVoteCount, Integer downVoteCount) {
         this.title = title;
         this.price = price;
         this.description = description;
@@ -46,7 +53,6 @@ public class Product {
         this.commentCount = commentCount;
         this.upVoteCount = upVoteCount;
         this.downVoteCount = downVoteCount;
-        this.consumer = consumer;
     }
 
     public Long getId() {
@@ -167,13 +173,5 @@ public class Product {
 
     public void setDownVoteCount(Integer downVoteCount) {
         this.downVoteCount = downVoteCount;
-    }
-
-    public Consumer getConsumer() {
-        return consumer;
-    }
-
-    public void setConsumer(Consumer consumer) {
-        this.consumer = consumer;
     }
 }

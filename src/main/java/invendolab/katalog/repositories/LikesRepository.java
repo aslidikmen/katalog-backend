@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface LikesRepository extends CrudRepository<Likes, Long> {
     List<Likes> findAll();
+    //List<Likes> findAllByProductId(long id);
 }

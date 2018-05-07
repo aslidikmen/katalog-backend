@@ -1,23 +1,44 @@
 package invendolab.katalog.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import invendolab.katalog.repositories.ProductRepository;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Likes implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    private Product product;
-    @ManyToOne
-    private Consumer consumer;
+
     private String createdTime;
     private String updatedTime;
 
-    public Likes(Product product, Consumer consumer, String createdTime, String updatedTime) {
-        this.product = product;
-        this.consumer = consumer;
+
+    @ManyToOne(cascade=CascadeType.ALL, targetEntity = Product.class)
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @JoinColumn(name="product_id")
+    private Product product;
+
+
+    //ONE TO MANY RELATION TO CONSUMER
+    /*@OneToMany(cascade=CascadeType.ALL, targetEntity=Consumer.class)
+    @JoinColumn(name="consumer_id")
+    private Set<Consumer> consumerSet = new HashSet<>(); */
+
+    public Likes(){
+
+    }
+
+    public Likes(String createdTime, String updatedTime) {
         this.createdTime = createdTime;
         this.updatedTime = updatedTime;
     }
@@ -38,14 +59,6 @@ public class Likes implements Serializable {
         this.product = product;
     }
 
-    public Consumer getConsumer() {
-        return consumer;
-    }
-
-    public void setConsumer(Consumer consumer) {
-        this.consumer = consumer;
-    }
-
     public String getCreatedTime() {
         return createdTime;
     }
@@ -61,4 +74,5 @@ public class Likes implements Serializable {
     public void setUpdatedTime(String updatedTime) {
         this.updatedTime = updatedTime;
     }
+
 }

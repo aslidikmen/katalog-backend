@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AssetsRepository extends CrudRepository<Asset, Long>{
     List<Asset> findAll();
+    //List<Asset> findAllByProductId(long id);
 }

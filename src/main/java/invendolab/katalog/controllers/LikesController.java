@@ -1,17 +1,23 @@
 package invendolab.katalog.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import invendolab.katalog.exceptions.CommentNotFoundException;
+import invendolab.katalog.models.Consumer;
 import invendolab.katalog.models.Likes;
+import invendolab.katalog.repositories.ConsumerRepository;
 import invendolab.katalog.repositories.LikesRepository;
+import invendolab.katalog.repositories.ProductRepository;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/likes")
@@ -19,6 +25,12 @@ import java.util.Optional;
 public class LikesController {
     @Autowired
     private LikesRepository repository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private ConsumerRepository consumerRepository;
 
     @GetMapping(value = "/all")
     public List<Likes> getAllLikes(){
@@ -36,11 +48,18 @@ public class LikesController {
     }
 
     @PostMapping(value = "/createLike")
-    public ResponseEntity<?> saveLikes(@RequestBody Likes like){
-        Likes savedLike = repository.save(like);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(savedLike.getId()).toUri();
-        return ResponseEntity.created(location).build();
+    public Likes saveLikes(@RequestParam (value = "product_id") Long productId, @RequestParam (value = "consumer_id") Long consumerId, @Valid @RequestBody Likes like){
+        return (productRepository.findById(productId)).map(product -> {
+            like.setProduct(product);
+
+            /*if (!consumerRepository.existsById(consumerId)) {
+                throw new CommentNotFoundException("product Id " + productId + " not found");
+            } else {
+                like.getConsumers().add((consumerRepository.findById(consumerId).get()));
+            } */
+
+            return repository.save(like);
+        }).orElseThrow(() -> new CommentNotFoundException("product Id " + productId + " not found"));
     }
 
     @PutMapping(value = "/{id}")

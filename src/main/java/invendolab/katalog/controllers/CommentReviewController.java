@@ -26,6 +26,11 @@ public class CommentReviewController {
         return repository.findAll();
     }
 
+    @GetMapping(value = "/all/byProductId/{id}")
+    public  List<CommentReview> getAllCommentsByProductId(@PathVariable Long productId) {
+        return repository.findAllByProductId(productId);
+    }
+
     @GetMapping(value = "/{id}")
     public CommentReview getById(@PathVariable long id){
         Optional<CommentReview> commentReview = repository.findById(id);

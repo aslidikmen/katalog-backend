@@ -29,8 +29,12 @@ public class ProductController {
 
     @ApiOperation(value = "Returns all products")
     @GetMapping(value = "/all")
-    public List<Product> getAllProducts(){
-        return repository.findAll();
+    public List<Product> getAllProducts(@RequestParam(value = "isActive") Boolean isActive){
+        if (isActive) {
+            return repository.findAll();
+        }else {
+            return repository.findAllByisActiveIsFalse();
+        }
     }
 
     @GetMapping(value = "/{id}")
