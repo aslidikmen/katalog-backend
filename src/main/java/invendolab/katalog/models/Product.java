@@ -16,26 +16,17 @@ public class Product {
     private String imageUrl;
     private String difficulty;
     private String url;
+    private Integer upVoteCount;
+    private Integer downVoteCount;
     private boolean isActive;
     private String createdTime;
     private String updatedTime;
     private String tags;
     private Integer commentCount;
 
+    public Product(){ }
 
-    /*@OneToMany(cascade=CascadeType.ALL, targetEntity=Likes.class)
-    @JoinColumn(name="likes_id")
-    private Set<Likes> likesSet = new HashSet<>();
-
-    @OneToMany(cascade=CascadeType.ALL, targetEntity=Consumer.class)
-    @JoinColumn(name="consumer_id")
-    private Set<Consumer> consumerSet = new HashSet<>(); */
-
-    public Product(){
-
-    }
-
-    public Product(String title, Float price, String description, String type, String imageUrl, String difficulty, String url, boolean isActive, String createdTime, String updatedTime, String tags, Integer commentCount) {
+    public Product(String title, Float price, String description, String type, String imageUrl, String difficulty, String url, Integer upVoteCount, Integer downVoteCount, boolean isActive, String createdTime, String updatedTime, String tags, Integer commentCount) {
         this.title = title;
         this.price = price;
         this.description = description;
@@ -43,6 +34,8 @@ public class Product {
         this.imageUrl = imageUrl;
         this.difficulty = difficulty;
         this.url = url;
+        this.upVoteCount = upVoteCount;
+        this.downVoteCount = downVoteCount;
         this.isActive = isActive;
         this.createdTime = createdTime;
         this.updatedTime = updatedTime;
@@ -112,6 +105,22 @@ public class Product {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Integer getUpVoteCount() {
+        return upVoteCount;
+    }
+
+    public void setUpVoteCount(Integer upVoteCount) {
+        this.upVoteCount = upVoteCount;
+    }
+
+    public Integer getDownVoteCount() {
+        return downVoteCount;
+    }
+
+    public void setDownVoteCount(Integer downVoteCount) {
+        this.downVoteCount = downVoteCount;
     }
 
     public boolean isActive() {

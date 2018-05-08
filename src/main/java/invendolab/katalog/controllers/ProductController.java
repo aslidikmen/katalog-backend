@@ -2,27 +2,24 @@ package invendolab.katalog.controllers;
 
 import invendolab.katalog.exceptions.ProductNotFoundException;
 import invendolab.katalog.models.Product;
-import invendolab.katalog.helpers.Response;
 import invendolab.katalog.repositories.ProductRepository;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/product")
 @Api(value ="Products", description = "All details about the products. ")
 public class ProductController {
-    private Response response = new Response();
 
     @Autowired
     private ProductRepository repository;
@@ -31,10 +28,69 @@ public class ProductController {
     @GetMapping(value = "/all")
     public List<Product> getAllProducts(@RequestParam(value = "isActive") Boolean isActive){
         if (isActive) {
-            return repository.findAll();
+            return repository.findAllByisActiveIsTrue();
         }else {
             return repository.findAllByisActiveIsFalse();
         }
+    }
+
+    @ApiOperation(value = "Returns all products by sorting with active products")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "isActive", type = "Boolean", paramType = "query"),
+            @ApiImplicitParam(name = "sortBy", value = "1: id, 2: title, 3: upvotecount, 4: downvotecount", type="Integer", allowableValues = "1, 2, 3, 4", paramType = "query"),
+            @ApiImplicitParam(name = "order", allowableValues = "DESC, ASC", paramType = "query")
+    })
+    @GetMapping(value = "/all/sort")
+    public List<Product> getAllProductsBySorting(@RequestParam(value = "sortBy") Integer sortBy, @RequestParam(value = "order") String order) {
+
+        List<Product> productList;
+
+        if (sortBy != null && (order != null && (order.equals("ASC") || order.equals("DESC")))) {
+
+            switch (sortBy) {
+                case 1:
+                    productList = repository.findAllByisActiveIsTrueOrderByIdAsc();
+                    break;
+                case 2:
+                    productList = repository.findAllByisActiveIsTrueOrderByTitleAsc();
+                    break;
+                case 3:
+                    productList = repository.findAllByisActiveIsTrueOrderByUpVoteCountAsc();
+                    break;
+                case 4:
+                    productList = repository.findAllByisActiveIsTrueOrderByDownVoteCountAsc();
+                    break;
+                default:
+                    productList = repository.findAll();
+                    break;
+            }
+
+        } else if(sortBy != null) {
+
+            switch (sortBy) {
+                case 1:
+                    productList = repository.findAllByisActiveIsTrueOrderByIdDesc();
+                    break;
+                case 2:
+                    productList = repository.findAllByisActiveIsTrueOrderByTitleDesc();
+                    break;
+                case 3:
+                    productList = repository.findAllByisActiveIsTrueOrderByUpVoteCountDesc();
+                    break;
+                case 4:
+                    productList = repository.findAllByisActiveIsTrueOrderByDownVoteCountDesc();
+                    break;
+                default:
+                    productList = repository.findAll();
+                    break;
+            }
+
+        } else {
+            productList = repository.findAll();
+        }
+
+        return productList;
+
     }
 
     @GetMapping(value = "/{id}")

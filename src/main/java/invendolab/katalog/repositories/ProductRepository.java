@@ -8,4 +8,16 @@ import java.util.List;
 public interface ProductRepository extends CrudRepository<Product, Long> {
     List<Product> findAll();
     List<Product> findAllByisActiveIsFalse();
+    List<Product> findAllByisActiveIsTrue();
+
+    List<Product> findAllByisActiveIsTrueOrderByIdDesc();
+    List<Product> findAllByisActiveIsTrueOrderByTitleDesc();
+    List<Product> findAllByisActiveIsTrueOrderByUpVoteCountDesc();
+    List<Product> findAllByisActiveIsTrueOrderByDownVoteCountDesc();
+
+    List<Product> findAllByisActiveIsTrueOrderByIdAsc();
+    List<Product> findAllByisActiveIsTrueOrderByTitleAsc();
+    List<Product> findAllByisActiveIsTrueOrderByUpVoteCountAsc();
+    List<Product> findAllByisActiveIsTrueOrderByDownVoteCountAsc();
+
 }
