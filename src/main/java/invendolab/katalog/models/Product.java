@@ -1,8 +1,6 @@
 package invendolab.katalog.models;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Product {
@@ -23,8 +21,7 @@ public class Product {
     private String updatedTime;
     private String tags;
     private Integer commentCount;
-    private Integer upVoteCount;
-    private Integer downVoteCount;
+
 
     /*@OneToMany(cascade=CascadeType.ALL, targetEntity=Likes.class)
     @JoinColumn(name="likes_id")
@@ -38,7 +35,7 @@ public class Product {
 
     }
 
-    public Product(String title, Float price, String description, String type, String imageUrl, String difficulty, String url, boolean isActive, String createdTime, String updatedTime, String tags, Integer commentCount, Integer upVoteCount, Integer downVoteCount) {
+    public Product(String title, Float price, String description, String type, String imageUrl, String difficulty, String url, boolean isActive, String createdTime, String updatedTime, String tags, Integer commentCount) {
         this.title = title;
         this.price = price;
         this.description = description;
@@ -51,8 +48,6 @@ public class Product {
         this.updatedTime = updatedTime;
         this.tags = tags;
         this.commentCount = commentCount;
-        this.upVoteCount = upVoteCount;
-        this.downVoteCount = downVoteCount;
     }
 
     public Long getId() {
@@ -157,21 +152,5 @@ public class Product {
 
     public void setCommentCount(Integer commentCount) {
         this.commentCount = commentCount;
-    }
-
-    public Integer getUpVoteCount() {
-        return upVoteCount;
-    }
-
-    public void setUpVoteCount(Integer upVoteCount) {
-        this.upVoteCount = upVoteCount;
-    }
-
-    public Integer getDownVoteCount() {
-        return downVoteCount;
-    }
-
-    public void setDownVoteCount(Integer downVoteCount) {
-        this.downVoteCount = downVoteCount;
     }
 }
