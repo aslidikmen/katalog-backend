@@ -14,10 +14,12 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     List<Product> findAllByisActiveIsTrueOrderByTitleDesc();
     List<Product> findAllByisActiveIsTrueOrderByUpVoteCountDesc();
     List<Product> findAllByisActiveIsTrueOrderByDownVoteCountDesc();
+    List<Product> findAllByisActiveIsTrueOrderByPriceDesc();
 
     List<Product> findAllByisActiveIsTrueOrderByIdAsc();
     List<Product> findAllByisActiveIsTrueOrderByTitleAsc();
     List<Product> findAllByisActiveIsTrueOrderByUpVoteCountAsc();
     List<Product> findAllByisActiveIsTrueOrderByDownVoteCountAsc();
+    List<Product> findAllByisActiveIsTrueOrderByPriceAsc();
 
 }

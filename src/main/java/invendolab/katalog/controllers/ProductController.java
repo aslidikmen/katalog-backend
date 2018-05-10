@@ -37,7 +37,7 @@ public class ProductController {
     @ApiOperation(value = "Returns all products by sorting with active products")
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "isActive", type = "Boolean", paramType = "query"),
-            @ApiImplicitParam(name = "sortBy", value = "1: id, 2: title, 3: upvotecount, 4: downvotecount", type="Integer", allowableValues = "1, 2, 3, 4", paramType = "query"),
+            @ApiImplicitParam(name = "sortBy", value = "1: id, 2: title, 3: upvotecount, 4: downvotecount, 5: price", type="Integer", allowableValues = "1, 2, 3, 4, 5", paramType = "query"),
             @ApiImplicitParam(name = "order", allowableValues = "DESC, ASC", paramType = "query")
     })
     @GetMapping(value = "/all/sort")
@@ -60,6 +60,9 @@ public class ProductController {
                 case 4:
                     productList = repository.findAllByisActiveIsTrueOrderByDownVoteCountAsc();
                     break;
+                case 5:
+                    productList = repository.findAllByisActiveIsTrueOrderByPriceAsc();
+                    break;
                 default:
                     productList = repository.findAll();
                     break;
@@ -79,6 +82,9 @@ public class ProductController {
                     break;
                 case 4:
                     productList = repository.findAllByisActiveIsTrueOrderByDownVoteCountDesc();
+                    break;
+                case 5:
+                    productList = repository.findAllByisActiveIsTrueOrderByPriceDesc();
                     break;
                 default:
                     productList = repository.findAll();
