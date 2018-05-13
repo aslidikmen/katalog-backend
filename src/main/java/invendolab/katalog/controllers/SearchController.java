@@ -68,7 +68,7 @@ public class SearchController {
             Specification<Product> specification = searchSpecification.findAllSpecification(keyword, priceStart, priceEnd, difficulty);
 
             if (start != null && offset != null) {
-                changeableList = repository.findAll(specification, PageRequest.of(start, offset));
+                changeableList = repository.findAll(specification, PageRequest.of(start, offset)).getContent();
             } else {
                 changeableList = repository.findAll(specification);
             }
