@@ -1,11 +1,16 @@
 package invendolab.katalog.models;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Consumer {
+
+    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,12 +24,13 @@ public class Consumer {
     private String companyName;
     private String fullName;
     private boolean isActive;
+    private String[] roles;
 
     public Consumer(){
-
+        super();
     }
 
-    public Consumer(String userName, String password, String email, String jobTitle, String bio, String profileUrl, String companyName, String fullName, boolean isActive) {
+    public Consumer(String userName, String password, String email, String jobTitle, String bio, String profileUrl, String companyName, String fullName, boolean isActive, String[] roles) {
         this.userName = userName;
         this.password = password;
         this.email = email;
@@ -34,6 +40,12 @@ public class Consumer {
         this.companyName = companyName;
         this.fullName = fullName;
         this.isActive = isActive;
+        this.roles = roles;
+        setPassword(password);
+    }
+
+    public static PasswordEncoder getPasswordEncoder() {
+        return PASSWORD_ENCODER;
     }
 
     public Long getId() {
@@ -57,7 +69,7 @@ public class Consumer {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = PASSWORD_ENCODER.encode(password);
     }
 
     public String getEmail() {
@@ -114,5 +126,13 @@ public class Consumer {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public String[] getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String[] roles) {
+        this.roles = roles;
     }
 }

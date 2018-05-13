@@ -8,4 +8,6 @@ import java.util.List;
 public interface ConsumerRepository extends CrudRepository<Consumer, Long> {
     List<Consumer> findAllByOrderByIdDesc();
     List<Consumer> findAll();
+    Consumer findByEmail(String email);
+    boolean existsByEmail(String email);
 }
