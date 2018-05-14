@@ -16,11 +16,11 @@ public class DetailsService implements UserDetailsService {
     ConsumerRepository consumers;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String emailOrUsername) throws UsernameNotFoundException {
 
-        Consumer consumer = consumers.findByEmail(email);
+        Consumer consumer = consumers.findByEmail(emailOrUsername);
         if (consumer == null){
-            throw new UsernameNotFoundException(email + " was not found");
+            throw new UsernameNotFoundException(emailOrUsername + " was not found");
         }
         return new org.springframework.security.core.userdetails.User(
                 consumer.getEmail(),

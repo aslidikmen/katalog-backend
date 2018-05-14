@@ -79,8 +79,9 @@ public class ConsumerController {
         return student.get();
     }
 
-    @PostMapping(value = "/createConsumer")
+    @PostMapping(value = "/register")
     public ResponseEntity<Object> createConsumer(@RequestBody Consumer consumer){
+        consumer.setRoles(new String[]{"ROLE_USER"});
         Consumer savedUSer = repository.save(consumer);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedUSer.getId()).toUri();

@@ -1,6 +1,6 @@
 /*
- * Created by Batuhan Kök on 10/05/2018.
- * Copyright © 2018 D-Teknoloji. All rights reserved.
+ * Created by Batuhan Kök on 14/5/2018.
+ * Copyright (c) D-Teknoloji 2018.
  */
 
 package invendolab.katalog.controllers;

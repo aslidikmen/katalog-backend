@@ -1,6 +1,12 @@
+/*
+ * Created by Batuhan Kök on 14/5/2018.
+ * Copyright (c) D-Teknoloji 2018.
+ */
+
 package invendolab.katalog.helpers;
 
 public class Response {
+
     private boolean isSuccess;
     private String message;
     private int errorCode;

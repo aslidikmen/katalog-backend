@@ -1,21 +1,14 @@
-package invendolab.katalog.models;
+/*
+ * Created by Batuhan Kök on 14/5/2018.
+ * Copyright (c) D-Teknoloji 2018.
+ */
+
+package invendolab.katalog.models.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public class LoginResponse {
 
-@Entity
-public class Consumer {
-
-    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String userName;
     @JsonIgnore
@@ -27,14 +20,10 @@ public class Consumer {
     private String companyName;
     private String fullName;
     private boolean isActive;
-    @JsonIgnore
     private String[] roles;
 
-    public Consumer(){
-        super();
-    }
-
-    public Consumer(String userName, String password, String email, String jobTitle, String bio, String profileUrl, String companyName, String fullName, boolean isActive, String[] roles) {
+    public LoginResponse(Long id, String userName, String password, String email, String jobTitle, String bio, String profileUrl, String companyName, String fullName, boolean isActive, String[] roles) {
+        this.id = id;
         this.userName = userName;
         this.password = password;
         this.email = email;
@@ -45,11 +34,6 @@ public class Consumer {
         this.fullName = fullName;
         this.isActive = isActive;
         this.roles = roles;
-        setPassword(password);
-    }
-
-    public static PasswordEncoder getPasswordEncoder() {
-        return PASSWORD_ENCODER;
     }
 
     public Long getId() {
@@ -73,7 +57,7 @@ public class Consumer {
     }
 
     public void setPassword(String password) {
-        this.password = PASSWORD_ENCODER.encode(password);
+        this.password = password;
     }
 
     public String getEmail() {

@@ -1,3 +1,8 @@
+/*
+ * Created by Batuhan Kök on 14/5/2018.
+ * Copyright (c) D-Teknoloji 2018.
+ */
+
 package invendolab.katalog.models.responses;
 
 import invendolab.katalog.models.Product;

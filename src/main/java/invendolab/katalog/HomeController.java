@@ -1,3 +1,8 @@
+/*
+ * Created by Batuhan Kök on 14/5/2018.
+ * Copyright (c) D-Teknoloji 2018.
+ */
+
 package invendolab.katalog;
 
 import io.swagger.annotations.Api;
@@ -14,10 +19,8 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(value = "home", description = "Home screen to hello")
 public class HomeController {
 
-    //TODO -> when dev and api environments are set, link this with global variables in heroku
-
-    //@Value("${HOMEPAGE_MESSAGE:local}")
-    //String homepageMessage;
+    @Value("${HOMEPAGE_MESSAGE:local}")
+    String homepageMessage;
 
     @ApiOperation(value = "Only saying hello to everyone.")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully") })
@@ -29,13 +32,13 @@ public class HomeController {
                 "<h1 style=\"font-family: 'Nunito Sans', sans-serif; color:#3B3B3B\">" +
                 "<br /><br /><br />" +
                 "<center>" +
-                "Hello from Katalog API "; /* +
+                "Hello from Katalog API " +
                 "through " +
                 homepageMessage +
                 " environment." +
                 "</center>" +
                 "</h1>" +
-                "</body>"; */
+                "</body>";
 
     }
 
