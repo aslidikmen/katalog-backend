@@ -9,10 +9,25 @@ import java.util.List;
 
 public class SearchSpecifications {
 
-    public Specification<Product> findAllSpecification(String keyword, String priceStart, String priceEnd, String difficulty){
+    public Specification<Product> findAllSpecification(String keyword, String priceStart, String priceEnd, String difficulty, String sortBy, String order){
         return (root, criteriaQuery, criteriaBuilder) -> {
 
             criteriaQuery.distinct(true);
+
+            if (sortBy != null && !sortBy.isEmpty()) {
+
+                if (sortBy.equals("1") && order.equals("ASC")) {
+                    criteriaQuery.orderBy(criteriaBuilder.asc(root.get("title")));
+                } else if (sortBy.equals("2") && order.equals("ASC")) {
+                    criteriaQuery.orderBy(criteriaBuilder.asc(root.get("price")));
+                }
+
+                if (sortBy.equals("1") && order.equals("DESC")) {
+                    criteriaQuery.orderBy(criteriaBuilder.desc(root.get("title")));
+                } else if (sortBy.equals("2") && order.equals("DESC")) {
+                    criteriaQuery.orderBy(criteriaBuilder.desc(root.get("price")));
+                }
+            }
 
             List<Predicate> conditions = new ArrayList();
 

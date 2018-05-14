@@ -47,6 +47,8 @@ public class SearchController {
             @ApiImplicitParam(name = "price_start", paramType = "query", type = "int"),
             @ApiImplicitParam(name = "price_end", paramType = "query", type = "int"),
             @ApiImplicitParam(name = "difficulty", value = "Difficulty between 1-5", paramType = "query", type = "Integer", allowableValues = "1, 2, 3, 4, 5"),
+            @ApiImplicitParam(name = "sort_by", value = "It can be title or price. For title: 1, for price: 2", type = "Integer", paramType = "query", allowableValues = "1, 2"),
+            @ApiImplicitParam(name = "order", allowableValues = "DESC, ASC", paramType = "query"),
             @ApiImplicitParam(name = "start", value = "pagination end. ex: start = 0 offset = 1 returns one product ",type = "long", paramType = "query"),
             @ApiImplicitParam(name = "offset", value = "pagination end. ex: start = 0 offset = 1 returns one product ", type = "long", paramType = "query")
     })
@@ -57,15 +59,17 @@ public class SearchController {
 
             List<Product> changeableList;
 
-            String priceStart, priceEnd, difficulty, keyword;
+            String priceStart, priceEnd, difficulty, keyword, order, sortBy;
 
             keyword = params.get("keyword") != null ? params.get("keyword") : null;
             priceStart = params.get("price_start") != null ? params.get("price_start") : null;
             priceEnd = params.get("price_end") != null ? params.get("price_end") : null;
             difficulty = params.get("difficulty") != null ? params.get("difficulty") : null;
+            sortBy = params.get("sort_by") != null ? params.get("sort_by") : null;
+            order = params.get("order") != null ? params.get("order") : null;
 
             SearchSpecifications searchSpecification = new SearchSpecifications();
-            Specification<Product> specification = searchSpecification.findAllSpecification(keyword, priceStart, priceEnd, difficulty);
+            Specification<Product> specification = searchSpecification.findAllSpecification(keyword, priceStart, priceEnd, difficulty, sortBy, order);
 
             if (start != null && offset != null) {
                 changeableList = repository.findAll(specification, PageRequest.of(start, offset)).getContent();
