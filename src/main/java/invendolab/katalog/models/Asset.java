@@ -13,6 +13,10 @@ public class Asset {
     /*@ManyToOne
     private Product product; */
 
+    public Asset(){
+        
+    }
+
     public Asset(String fileUrl, String assetType) {
         this.fileUrl = fileUrl;
         this.assetType = assetType;
