@@ -21,6 +21,10 @@ public class CommentReview {
     @ManyToOne
     private Product product;
 
+    public CommentReview(){
+
+    }
+
     public CommentReview(String pros, String cons, String content, boolean isActive, String createdTime, String updatedTime, Product product) {
         this.pros = pros;
         this.cons = cons;

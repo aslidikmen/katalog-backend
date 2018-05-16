@@ -3,6 +3,7 @@ package invendolab.katalog.controllers;
 import invendolab.katalog.exceptions.CommentNotFoundException;
 import invendolab.katalog.models.CommentReview;
 import invendolab.katalog.repositories.CommentReviewRepository;
+import invendolab.katalog.repositories.ProductRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ import java.util.Optional;
 public class CommentReviewController {
     @Autowired
     private CommentReviewRepository repository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @GetMapping(value = "/all")
     public List<CommentReview> getAllCommentReviews(){
@@ -42,7 +46,8 @@ public class CommentReviewController {
     }
 
     @PostMapping(value = "/createComment")
-    public ResponseEntity<?> saveCommentReview(@RequestBody CommentReview commentReview){
+    public ResponseEntity<?> saveCommentReview(@RequestBody CommentReview commentReview, @RequestParam(name = "product_id") Long productId){
+        commentReview.setProduct(productRepository.findById(productId).get());
         CommentReview savedCommentReview = repository.save(commentReview);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(savedCommentReview.getId()).toUri();
