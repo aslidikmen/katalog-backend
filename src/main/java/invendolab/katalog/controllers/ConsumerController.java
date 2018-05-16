@@ -58,7 +58,6 @@ public class ConsumerController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "A list of all consumers", response = Consumer.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
